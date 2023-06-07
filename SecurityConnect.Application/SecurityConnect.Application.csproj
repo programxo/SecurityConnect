@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\SecurityConnect.Domain\SecurityConnect.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
