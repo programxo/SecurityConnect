@@ -4,6 +4,7 @@ using MediatR;
 
 namespace SecurityConnect.Application.Common.Behaviors
 {
+    // MediatR pipeline behavior for validating requests
     public class ValidationBehavior<TRequest, TResponse> :
         IPipelineBehavior<TRequest, TResponse>
             where TRequest : IRequest<TResponse>
@@ -28,18 +29,21 @@ namespace SecurityConnect.Application.Common.Behaviors
 
             var validationResult = await _validator.ValidateAsync(request);
 
+            // If validation is successful, pass to the next pipeline handler
             if (validationResult.IsValid)
             {
                 return await next();
             }
 
+            // Otherwise, construct an error list from the validation failures
             var errors = validationResult.Errors
                 .Select(validationFailure => Error.Validation(
                     validationFailure.PropertyName,
                     validationFailure.ErrorMessage))
                 .ToList();
 
-            return (dynamic)errors; // dynamic danger
+            // Return the error list
+            return (dynamic)errors; // Note: dynamic usage can be risky without proper type checks
         }
     }
 }

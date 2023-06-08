@@ -11,13 +11,13 @@ namespace SecurityConnect.Infrastructure.Persistence
             _users.Add(user);
         }
 
-        public User? GetUserByUsername(string userName)
+        public User? GetUserByUserName(string userName)
         {
             /* SingleOrDefault: UserName zu finden
                wenn kein passender User gibt null zurück,
                wirft eine InvalidOperationException, wenn mehr als ein passender User gefunden wird. */
 
-            return _users.SingleOrDefault(u => u.Username == userName);
+            return _users.SingleOrDefault(u => u.UserName == userName);
         }
 
     }
