@@ -30,7 +30,7 @@ namespace SecurityConnect.Infrastructure.Authentication
         #region Method: Generating JWTs
         public string GenerateToken(User user)
         {
-            #region Creating Login-Informations for Signing an Token
+            #region Creating Signature Information for Token
             var signingCredentials = new SigningCredentials(
                 new SymmetricSecurityKey(
                     Encoding.UTF8.GetBytes(_jwtSettings.Secret)),
