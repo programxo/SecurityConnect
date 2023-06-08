@@ -6,7 +6,7 @@ namespace SecurityConnect.Domain.Entities
     {
         public Guid Id { get; set; } = Guid.NewGuid();
 
-        public string Username { get; set; } = null!;   /* null!
+        public string UserName { get; set; } = null!;   /* null! Null-Forgiving-Postfix
                                                         Zeigt dem Compiler, dass eine Variable oder Eigenschaft,
                                                         die null sein könnte in Wirklichkeit nicht null ist */
         public SecureString Password { get; set; } = null!;
