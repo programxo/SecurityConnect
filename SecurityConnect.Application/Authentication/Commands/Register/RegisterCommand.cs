@@ -8,7 +8,7 @@ namespace SecurityConnect.Application.Authentication.Commands.Register
     public record RegisterCommand
     (
         string UserName,
-        SecureString Password,
+        string Password,
         string FirstName,
         string LastName) : IRequest<ErrorOr<AuthenticationResult>>;
 

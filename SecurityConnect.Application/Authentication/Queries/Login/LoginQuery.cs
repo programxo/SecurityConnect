@@ -8,6 +8,6 @@ namespace SecurityConnect.Application.Authentication.Queries.Login
     public record LoginQuery
     (
         string UserName,
-        SecureString Password) : IRequest<ErrorOr<AuthenticationResult>>;
+        string Password) : IRequest<ErrorOr<AuthenticationResult>>;
 
 }

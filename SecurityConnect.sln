@@ -21,15 +21,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2F61B416-E73A-455C-B363-42D7E608B086}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.API", "SecurityConnect.API\SecurityConnect.API.csproj", "{CE4F28CF-6CBC-4D4C-A19D-34F88CFDFBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.API", "SecurityConnect.API\SecurityConnect.API.csproj", "{CE4F28CF-6CBC-4D4C-A19D-34F88CFDFBDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Application", "SecurityConnect.Application\SecurityConnect.Application.csproj", "{FF6F0133-42B3-40D8-8EBE-F18DF842B704}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Application", "SecurityConnect.Application\SecurityConnect.Application.csproj", "{FF6F0133-42B3-40D8-8EBE-F18DF842B704}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Contracts", "SecurityConnect.Contracts\SecurityConnect.Contracts.csproj", "{11777644-BBE2-43B0-9183-2657CE301F30}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Contracts", "SecurityConnect.Contracts\SecurityConnect.Contracts.csproj", "{11777644-BBE2-43B0-9183-2657CE301F30}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Domain", "SecurityConnect.Domain\SecurityConnect.Domain.csproj", "{2BB8F2D7-29D2-4A24-9B21-8DA8193B7B4F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Domain", "SecurityConnect.Domain\SecurityConnect.Domain.csproj", "{2BB8F2D7-29D2-4A24-9B21-8DA8193B7B4F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Infrastructure", "SecurityConnect.Infrastructure\SecurityConnect.Infrastructure.csproj", "{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Infrastructure", "SecurityConnect.Infrastructure\SecurityConnect.Infrastructure.csproj", "{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Tests", "SecurityConnect.Tests\SecurityConnect.Tests.csproj", "{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -57,6 +59,10 @@ Global
 		{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{11777644-BBE2-43B0-9183-2657CE301F30} = {850816C6-C782-415B-BE3F-BA83107275E4}
 		{2BB8F2D7-29D2-4A24-9B21-8DA8193B7B4F} = {02F53220-6B30-497C-9453-FBCE5CACC85E}
 		{87517D16-76C0-4A50-B78E-1AA2AC4FE02E} = {4EC41DB3-9300-4B0B-813A-556F6FF02840}
+		{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D} = {47611AC1-1371-46CC-BE83-408974F2F1E0}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {B0B4B573-AAEE-42DF-8B80-9A31860748A1}

@@ -6,6 +6,6 @@ namespace SecurityConnect.Contracts.Authentication
     // It captures the user's username and password.
     public record LoginRequest(
         string UserName,
-        SecureString Password
+        string Password
     );
 }

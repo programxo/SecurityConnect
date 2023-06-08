@@ -6,7 +6,7 @@ namespace SecurityConnect.Contracts.Authentication
     // It captures the necessary user details such as username, password, first name, and last name.
     public record RegisterRequest(
         string UserName,
-        SecureString Password,
+        string Password,
         string FirstName,
         string LastName
     );
