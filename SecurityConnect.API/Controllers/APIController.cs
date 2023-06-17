@@ -2,9 +2,9 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
-using SecurityConnect.API.Common.Http;
+using SecurityConnect.WebApp.Common.Http;
 
-namespace SecurityConnect.API.Controllers
+namespace SecurityConnect.WebApp.Controllers
 {
     [ApiController]
     [Authorize]

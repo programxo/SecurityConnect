@@ -2,7 +2,7 @@
 using MapsterMapper;
 using System.Reflection;
 
-namespace SecurityConnect.API.Common.Mapping
+namespace SecurityConnect.WebApp.Common.Mapping
 {
     public static class DependecyInjection
     {

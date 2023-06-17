@@ -1,11 +1,11 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.Extensions.DependencyInjection;
-using SecurityConnect.API.Common.Errors;
-using SecurityConnect.API.Common.Mapping;
+using SecurityConnect.WebApp.Common.Errors;
+using SecurityConnect.WebApp.Common.Mapping;
 using System.Reflection;
 
-namespace SecurityConnect.API
+namespace SecurityConnect.WebApp
 {
     public static class DependencyInjection
     {

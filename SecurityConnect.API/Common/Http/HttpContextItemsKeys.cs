@@ -1,4 +1,4 @@
-﻿namespace SecurityConnect.API.Common.Http
+﻿namespace SecurityConnect.WebApp.Common.Http
 {
     public static class HttpContextItemsKeys
     {

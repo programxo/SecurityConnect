@@ -19,9 +19,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docu", "docu", "{5C777905-7
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Contracts", "Contracts", "{850816C6-C782-415B-BE3F-BA83107275E4}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "API", "API", "{2F61B416-E73A-455C-B363-42D7E608B086}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WebApp", "WebApp", "{2F61B416-E73A-455C-B363-42D7E608B086}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.API", "SecurityConnect.API\SecurityConnect.API.csproj", "{CE4F28CF-6CBC-4D4C-A19D-34F88CFDFBDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.WebApp", "SecurityConnect.API\SecurityConnect.WebApp.csproj", "{CE4F28CF-6CBC-4D4C-A19D-34F88CFDFBDF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Application", "SecurityConnect.Application\SecurityConnect.Application.csproj", "{FF6F0133-42B3-40D8-8EBE-F18DF842B704}"
 EndProject
@@ -31,7 +31,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Domain", "S
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Infrastructure", "SecurityConnect.Infrastructure\SecurityConnect.Infrastructure.csproj", "{87517D16-76C0-4A50-B78E-1AA2AC4FE02E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SecurityConnect.Tests", "SecurityConnect.Tests\SecurityConnect.Tests.csproj", "{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SecurityConnect.Tests", "SecurityConnect.Tests\SecurityConnect.Tests.csproj", "{099E2D54-E5D2-49EB-9AA9-6ED05FB3D46D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

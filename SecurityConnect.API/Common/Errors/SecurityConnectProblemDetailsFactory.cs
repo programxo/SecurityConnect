@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using System.Diagnostics;
 using ErrorOr;
-using SecurityConnect.API.Common.Http;
+using SecurityConnect.WebApp.Common.Http;
 
-namespace SecurityConnect.API.Common.Errors
+namespace SecurityConnect.WebApp.Common.Errors
 {
     public class SecurityConnectProblemDetailsFactory : ProblemDetailsFactory
     {

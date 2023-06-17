@@ -4,7 +4,7 @@ using SecurityConnect.Application.Authentication.Common;
 using SecurityConnect.Application.Authentication.Queries.Login;
 using SecurityConnect.Contracts.Authentication;
 
-namespace SecurityConnect.API.Common.Mapping
+namespace SecurityConnect.WebApp.Common.Mapping
 {
     public class AuthenticationMappingConfig : IRegister // Mapster
     {

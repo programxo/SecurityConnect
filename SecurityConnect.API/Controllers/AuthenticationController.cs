@@ -9,7 +9,7 @@ using SecurityConnect.Application.Authentication.Common;
 using SecurityConnect.Application.Authentication.Queries.Login;
 using SecurityConnect.Contracts.Authentication;
 
-namespace SecurityConnect.API.Controllers
+namespace SecurityConnect.WebApp.Controllers
 {
     [Route("auth")]
     [AllowAnonymous]
