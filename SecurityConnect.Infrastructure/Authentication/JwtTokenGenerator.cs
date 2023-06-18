@@ -7,7 +7,7 @@ using Microsoft.IdentityModel.Tokens; // For Hashing
 
 using SecurityConnect.Application.Common.Interfaces.Authentication;
 using SecurityConnect.Application.Common.Interfaces.Services;
-using SecurityConnect.Domain.Entities;
+using SecurityConnect.Domain.Entities.UserAggregate;
 
 namespace SecurityConnect.Infrastructure.Authentication
 {

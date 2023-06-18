@@ -7,11 +7,14 @@ using SecurityConnect.Application.Common.Interfaces.Services;
 using SecurityConnect.Infrastructure.Authentication;
 using SecurityConnect.Infrastructure.Services;
 using SecurityConnect.Application.Common.Interfaces.Persistence;
-using SecurityConnect.Infrastructure.Persistence;
 
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.Extensions.Options;
+using SecurityConnect.Infrastructure.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+using SecurityConnect.Infrastructure.Persistence.Interceptors;
+using SecurityConnect.Infrastructure.Persistence;
 
 namespace SecurityConnect.Infrastructure
 {
@@ -22,17 +25,27 @@ namespace SecurityConnect.Infrastructure
                                                            ConfigurationManager configuration)
         {
             // Add authentication services
-            services.AddAuth(configuration);
+            services.AddAuth(configuration)
+                .AddPersistance();
 
             // Add a singleton of DateTimeProvider
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
-            // Add a scoped service of UserRepository
+            return services;
+        }
+        #endregion
+
+        public static IServiceCollection AddPersistance(
+        this IServiceCollection services)
+        {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer("Server=localhost;Database=SecurityConnect;User Id=.;TrustServerCertificate=true;persist security info=True;Integrated Security=SSPI"));
+
+            services.AddScoped<PublishDomainEventsInterceptor>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             return services;
         }
-        #endregion
 
         #region Method to add authentication services to the DI container
         public static IServiceCollection AddAuth(this IServiceCollection services,
