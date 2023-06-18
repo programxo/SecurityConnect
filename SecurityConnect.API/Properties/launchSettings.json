@@ -1,8 +1,9 @@
-{
+﻿{
   "profiles": {
     "http": {
       "commandName": "Project",
-      "launchUrl": "index",
+      "launchUrl": "",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
@@ -11,7 +12,8 @@
     },
     "https": {
       "commandName": "Project",
-      "launchUrl": "auth",
+      "launchUrl": "",
+      "launchBrowser": true,
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
