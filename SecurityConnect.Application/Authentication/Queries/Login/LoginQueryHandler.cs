@@ -2,9 +2,9 @@
 using MediatR;
 using SecurityConnect.Application.Common.Interfaces.Authentication;
 using SecurityConnect.Application.Common.Interfaces.Persistence;
-using SecurityConnect.Domain.Entities;
 using SecurityConnect.Domain.Common.Errors;
 using SecurityConnect.Application.Authentication.Common;
+using SecurityConnect.Domain.Entities.UserAggregate;
 
 namespace SecurityConnect.Application.Authentication.Queries.Login
 {
@@ -22,8 +22,6 @@ namespace SecurityConnect.Application.Authentication.Queries.Login
             _jwtTokenGenerator = jwtTokenGenerator;
             _userRepository = userRepository;
         }
-
-
 
         public async Task<ErrorOr<AuthenticationResult>> Handle(LoginQuery query, CancellationToken cancellationToken)
         {

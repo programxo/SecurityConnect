@@ -2,9 +2,9 @@
 using MediatR;
 using SecurityConnect.Application.Common.Interfaces.Authentication;
 using SecurityConnect.Application.Common.Interfaces.Persistence;
-using SecurityConnect.Domain.Entities;
 using SecurityConnect.Domain.Common.Errors;
 using SecurityConnect.Application.Authentication.Common;
+using SecurityConnect.Domain.Entities.UserAggregate;
 
 namespace SecurityConnect.Application.Authentication.Commands.Register
 {
@@ -36,13 +36,7 @@ namespace SecurityConnect.Application.Authentication.Commands.Register
             }
 
             // 2. Create user (generate unique ID) & Persist to DB
-            var user = new User
-            {
-                UserName = command.UserName,
-                Password = command.Password,
-                FirstName = command.FirstName,
-                LastName = command.LastName
-            };
+            var user = User.Create(command.FirstName, command.LastName, command.UserName, command.Password);
 
             _userRepository.Add(user);
 

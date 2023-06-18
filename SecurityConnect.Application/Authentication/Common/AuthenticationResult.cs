@@ -1,4 +1,4 @@
-﻿using SecurityConnect.Domain.Entities;
+﻿using SecurityConnect.Domain.Entities.UserAggregate;
 
 namespace SecurityConnect.Application.Authentication.Common
 {
