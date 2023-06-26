@@ -22,19 +22,13 @@ namespace SecurityConnect.Infrastructure.Persistence.Repositories
             _dbContext.SaveChanges();
         }
 
-        public User? GetUser(string username)
+        public User? GetUserByUserName(string username)
         {
             /* SingleOrDefault: UserName zu finden
                wenn kein passender User gibt null zurück,
                wirft eine InvalidOperationException, wenn mehr als ein passender User gefunden wird. */
             return _dbContext.Users
                 .SingleOrDefault(u => u.UserName == username);
-        }
-
-        public async Task<IEnumerable<User?>> GetUsersAsync()
-        {
-            return await _dbContext.Users
-                .ToListAsync();
         }
 
     }
