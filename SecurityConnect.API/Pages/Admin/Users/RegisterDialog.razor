@@ -1,0 +1,124 @@
+﻿@using System.ComponentModel.DataAnnotations
+@using System.Net.Http
+@using System.Text
+@using System.Text.Json
+@using SecurityConnect.Contracts.Authentication
+
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject IDialogService Dialog
+
+<!-- #region DIALOG: Register a new user -->
+<MudDialog IsVisible="true" >
+    <DialogContent>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+
+                    <MudTextField Label="Vorname" Class="mt-3"
+                    @bind-Value="FirstName" />
+
+                    <MudTextField Label="Nachname" Class="mt-3"
+                    @bind-Value="LastName" />
+
+                    <MudTextField Label="Benutzername" HelperText="Max. 8 Charakter"
+                    @bind-Value="UserName" />
+
+                    <MudTextField Label="Passwort" HelperText="Wählen Sie ein sicheres Passwort" Class="mt-3"
+                    @bind-Value="Password" InputType="InputType.Password" />
+
+                    <MudTextField Label="Passwort" HelperText="Wiederholen Sie das Passwort" Class="mt-3"
+                    @bind-Value="Password2" InputType="InputType.Password" />
+
+                    <MudTextField Label="Benutzerrolle" HelperText="Benutzerrolle wählen" Class="mt-3"
+                    @bind-Value="UserRole" InputType="InputType.Text" />
+
+                </MudCardContent>
+
+            </MudCard>
+        </MudItem>
+
+        <MudButton ButtonType="ButtonType.Submit"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="ml-auto"
+        @onclick="OnValidSubmit">Registrieren</MudButton>
+
+        <MudItem xs="12">
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                Füllen Sie das Formular korrekt aus, um die Erfolgsmeldung anzuzeigen.
+            </MudText>
+        </MudItem>
+    </DialogContent>
+</MudDialog>
+<!-- #endregion DIALOG: Register a new user -->
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDailog { get; set; }
+
+    void Submit() => MudDailog.Close(DialogResult.Ok(true));
+    void Cancel() => MudDailog.Cancel();
+
+    bool success;
+
+    [Required]
+    [StringLength(8, ErrorMessage = "Nicht länger als 8.")]
+    private string UserName { get; set; }
+
+    [Required]
+    [StringLength(30, ErrorMessage = "Mindestens 8 Charakter lang", MinimumLength = 8)]
+    private string Password { get; set; }
+
+    [Required]
+    [Compare(nameof(Password))]
+    private string Password2 { get; set; }
+
+    [Required]
+    [StringLength(15, ErrorMessage = "Nicht länger als 15.")]
+    private string FirstName { get; set; }
+
+    [Required]
+    [StringLength(15, ErrorMessage = "Nicht länger als 15.")]
+    private string LastName { get; set; }
+
+    [Required]
+    [StringLength(8, ErrorMessage = "Nicht länger als 8.")]
+    private string UserRole { get; set; }
+
+
+    private async Task OnValidSubmit()
+    {
+        var request = new RegisterRequest(UserName, Password, FirstName, LastName, UserRole);
+
+        // Convert the request to JSON
+        string json = JsonSerializer.Serialize(request);
+
+        // Wrap the JSON in a StringContent object for the POST request
+        HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
+
+        // Send the POST request
+        HttpResponseMessage response = await Http.PostAsync("https://localhost:7038/auth/register", content);
+
+        if (response.IsSuccessStatusCode)
+        {
+            ChangePosition("Benutzer registriert!", Defaults.Classes.Position.BottomCenter, Severity.Success);
+        }
+        else
+        {
+            ChangePosition("Ein Fehler ist aufgetreten!", Defaults.Classes.Position.BottomCenter, Severity.Error);
+        }
+    }
+
+    void ChangePosition(string message, string position, Severity variant)
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = position;
+
+        var config = (SnackbarOptions options) =>
+        {
+            options.DuplicatesBehavior = SnackbarDuplicatesBehavior.Prevent;
+        };
+
+        Snackbar.Add(message, variant);
+    }
+}
