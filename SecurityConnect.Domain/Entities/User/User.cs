@@ -1,10 +1,8 @@
-﻿using SecurityConnect.Domain.Common.Models;
-using SecurityConnect.Domain.Entities.UserAggregate.ValueObjects;
+﻿namespace SecurityConnect.Domain.Entities.User;
 
-namespace SecurityConnect.Domain.Entities.UserAggregate;
-
-public sealed class User : AggregateRoot<UserId, Guid>
+public sealed class User
 {
+    public Guid Id { get; private set; }
     public string FirstName { get; private set; }
     public string LastName { get; private set; }
     public string UserName { get; private set; }
@@ -13,23 +11,28 @@ public sealed class User : AggregateRoot<UserId, Guid>
     public DateTime CreatedDateTime { get; private set; }
     public DateTime UpdatedDateTime { get; private set; }
 
-    private User(string firstName, string lastName, string username, string password, UserId? userId = null)
-        : base(userId ?? UserId.CreateUnique())
+    public UserRole UserRole { get; private set; }
+
+    public User(string firstName, string lastName, string username, string password, UserRole role)
     {
+        Id = Guid.NewGuid();
         FirstName = firstName;
         LastName = lastName;
         UserName = username;
         Password = password;
+        UserRole = role;
     }
 
-    public static User Create(string firstName, string lastName, string username, string password)
+    public static User Create(string firstName, string lastName, string username, string password,
+        UserRole role)
     {
         // TODO: enforce invariants
         return new User(
             firstName,
             lastName,
             username,
-            password);
+            password,
+            role);
     }
 
 #pragma warning disable CS8618
