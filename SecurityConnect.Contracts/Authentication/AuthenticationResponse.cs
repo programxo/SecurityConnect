@@ -9,11 +9,13 @@
         which can be beneficial in certain scenarios. */
 
     public record AuthenticationResponse(
-        Guid Id,
+        string Id,
         string UserName,
         string Token,
         string FirstName,
-        string LastName
+        string LastName,
+        string UserRole,
+        string ManagedByAdminId
     );
 
 }

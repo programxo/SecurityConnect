@@ -1,0 +1,170 @@
+﻿@attribute [Authorize(Policy = "RequireAdministratorRole")]
+@page "/user-management"
+
+@using System.Net.Http.Json
+@using System.Collections.ObjectModel
+@using SecurityConnect.Contracts.Admin.Employee;
+@using SecurityConnect.WebApp.Services;
+@using SecurityConnect.WebApp.Shared.Components;
+
+@inject EmployeeService EmployeeService
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+@inject AuthenticationService AuthService
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+
+<MudPaper Elevation="25">
+<MudDataGrid Items="@employees" SortMode="SortMode.Single" Filterable="true" QuickFilter="@_quickFilter"
+             Hideable="true">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">
+            <MudFab Color="Color.Transparent" Class="position-relative"
+                                StartIcon="@Icons.Material.Outlined.PersonAdd"
+                    OnClick="@((e) => CreateUser())" />
+        </MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
+                      AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <Columns>
+        <PropertyColumn Property="e => e.FirstName" Title="Firstname" SortBy="@_sortBy" Filterable="false" />
+        <PropertyColumn Property="e => e.LastName" Title="Lastname" Filterable="false" />
+        <PropertyColumn Property="e => e.UserName" Title="Username" Filterable="false" />
+
+        <TemplateColumn CellClass="d-flex justify-end" Filterable="false" Sortable="false">
+            <CellTemplate Context="employeeContext">
+                <MudIconButton Size="@Size.Small" Icon="@Icons.Material.Outlined.Delete"
+                OnClick="@(async () => await DeleteUser(employeeContext.Item.Id))" />
+            </CellTemplate>
+        </TemplateColumn>
+    </Columns>
+
+    <PagerContent>
+        <MudDataGridPager T="EmployeeResponse" RowsPerPageString="Zeile per Seite"/>
+    </PagerContent>
+</MudDataGrid>
+</MudPaper>
+
+
+@code {
+    bool _isLoading = true;
+
+    private List<EmployeeResponse> employees = new();
+    private string? _searchString;
+
+    private Func<EmployeeResponse, object> _sortBy = x => x.FirstName;
+
+    private Func<EmployeeResponse, bool> _quickFilter => x =>
+    {
+        if (string.IsNullOrWhiteSpace(_searchString))
+            return true;
+
+        if (x.FirstName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            x.LastName.Contains(_searchString, StringComparison.OrdinalIgnoreCase) ||
+            x.UserName.Contains(_searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+
+        return false;
+    };
+
+    //protected override async Task OnInitializedAsync()
+    //{
+    //    try
+    //    {
+    //        var user = (await AuthService.GetAuthenticationStateAsync()).User;
+
+    //        if (user.Identity.IsAuthenticated)
+    //        {
+    //            // User is authenticated
+    //            if (user.IsInRole("Admin"))
+    //            {
+    //                // User is administrator, we fetch the employee list
+    //                var employeeData = await EmployeeService.ListEmployees();
+    //                employees = new List<EmployeeResponse>();
+    //                if (employeeData != null)
+    //                {
+    //                    employees.AddRange(employeeData);
+    //                }
+    //            }
+    //            else
+    //            {
+    //                // User is not an administrator, we redirect them or display an error message
+    //                NavigationManager.NavigateTo("/unauthorized");
+    //                throw new Exception("Unauthorized access: user is not an administrator.");
+    //            }
+    //        }
+    //        else
+    //        {
+    //            // User is not authenticated, we redirect them to the login page
+    //            NavigationManager.NavigateTo("/auth/login");
+    //            throw new Exception("User is not authenticated.");
+    //        }
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        Snackbar.Add($"Failed to fetch employees. Error: {ex.Message}", Severity.Error);
+    //    }
+    //    finally
+    //    {
+    //        _isLoading = false;
+    //    }
+    //}
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthService.GetAuthenticationStateAsync();
+        if (authState.User.Identity.IsAuthenticated && authState.User.IsInRole("Admin"))
+        {
+            try
+            {
+                var employeeData = await EmployeeService.ListEmployees();
+                employees = new List<EmployeeResponse>();
+                employees.AddRange(employeeData);
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add($"{ex} Failed to fetch user data. Please try again.", Severity.Error);
+            }
+            finally
+            {
+                _isLoading = false;
+                StateHasChanged();
+            }
+        }
+        else
+        {
+            // Redirect to an unauthorized page or show error message
+            NavigationManager.NavigateTo("/unauthorized");
+            Snackbar.Add("You are not authorized to view this page.", Severity.Error);
+        }
+    }
+
+    
+    void CreateUser()
+    {
+        var options = new DialogOptions { MaxWidth = MaxWidth.ExtraLarge, CloseButton = true, CloseOnEscapeKey = false };
+        DialogService.Show<RegisterDialog>("Neuen Benutzer registrieren", options);
+    }
+
+    private async Task DeleteUser(string id)
+    {
+        var dialog = DialogService.Show<ConfirmDialog>("Bitte bestätigen");
+        var result = await dialog.Result;
+
+        if (!result.Canceled && result.Data is bool data && data)
+        {
+            try
+            {
+                // User confirmed the dialog, proceed with deleting the user
+                await EmployeeService.DeleteEmployee(id);
+                employees.RemoveAll(user => user.Id == id); // Update local list after removing user
+            }
+            catch (Exception ex)
+            {
+                Snackbar.Add("Failed to delete user. Please try again.", Severity.Error);
+            }
+        }
+    }
+}
+

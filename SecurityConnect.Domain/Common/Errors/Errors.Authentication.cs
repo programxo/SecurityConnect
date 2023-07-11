@@ -1,7 +1,4 @@
-﻿using ErrorOr;
-
-namespace SecurityConnect.Domain.Common.Errors
-{
+﻿namespace SecurityConnect.Domain.Common.Errors;
     public static partial class Errors
     {
         public static class Authentication
@@ -10,6 +7,11 @@ namespace SecurityConnect.Domain.Common.Errors
                 code: "Authentication.InvalidCredentials",
                 description: "Invalid credentials."
                 );
+
+            public static Error InvalidRole => Error.Validation(
+                code: "Authentication.InvalidRole",
+                description: "Invalid user role."
+                );
         }
     }
-}
+

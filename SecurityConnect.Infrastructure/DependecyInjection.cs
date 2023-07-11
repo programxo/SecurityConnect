@@ -1,20 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Configuration;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-
-using SecurityConnect.Application.Common.Interfaces.Authentication;
-using SecurityConnect.Application.Common.Interfaces.Services;
-using SecurityConnect.Infrastructure.Authentication;
-using SecurityConnect.Infrastructure.Services;
-using SecurityConnect.Application.Common.Interfaces.Persistence;
-
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
-using Microsoft.Extensions.Options;
-using SecurityConnect.Infrastructure.Persistence.Repositories;
-using Microsoft.EntityFrameworkCore;
-using SecurityConnect.Infrastructure.Persistence.Interceptors;
-using SecurityConnect.Infrastructure.Persistence;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace SecurityConnect.Infrastructure
 {
@@ -31,6 +15,9 @@ namespace SecurityConnect.Infrastructure
             // Add a singleton of DateTimeProvider
             services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
+            // Add a singleton of HttpContextAccessor
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+
             return services;
         }
         #endregion
@@ -41,7 +28,6 @@ namespace SecurityConnect.Infrastructure
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer("Server=localhost;Database=SecurityConnect;User Id=.;TrustServerCertificate=true;persist security info=True;Integrated Security=SSPI"));
 
-            services.AddScoped<PublishDomainEventsInterceptor>();
             services.AddScoped<IUserRepository, UserRepository>();
 
             return services;

@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-
-namespace SecurityConnect.Application.Authentication.Queries.Login
+﻿namespace SecurityConnect.Application.Authentication.Queries.Login
 {
     public class LoginQueryValidator : AbstractValidator<LoginQuery>
     {

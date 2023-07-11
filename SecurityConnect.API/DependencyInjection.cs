@@ -1,9 +1,8 @@
-﻿using MediatR;
+﻿using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
-using Microsoft.Extensions.DependencyInjection;
 using SecurityConnect.WebApp.Common.Errors;
 using SecurityConnect.WebApp.Common.Mapping;
-using System.Reflection;
+using SecurityConnect.WebApp.Services;
 
 namespace SecurityConnect.WebApp
 {
@@ -11,17 +10,42 @@ namespace SecurityConnect.WebApp
     {
         public static IServiceCollection AddPresentation(this IServiceCollection services)
         {
-            // Add services to the container
-
-            // builder.Services.AddControllers(options => options.Filters.Add<ErrorHandlingFilterAttribute>());
-            services.AddControllers();
-
-            // Overriding the default problem details factory method
+            // Add singleton services to the container
+            services.AddSingleton<AuthenticationService>();
+            services.AddSingleton<AuthenticationStateProvider>(provider => provider.GetRequiredService<AuthenticationService>());
             services.AddSingleton<ProblemDetailsFactory, SecurityConnectProblemDetailsFactory>();
 
+            // Configure Http clients
+#if DEBUG
+            services.AddHttpClient<EmployeeService>(httpClient =>
+            {
+                httpClient.BaseAddress = new Uri("https://localhost:7038");
+            })
+            .ConfigurePrimaryHttpMessageHandler(() =>
+            {
+                return new SocketsHttpHandler
+                {
+                    PooledConnectionLifetime = TimeSpan.FromMinutes(5),
+                };
+            }).SetHandlerLifetime(Timeout.InfiniteTimeSpan);
+#endif
+
+            // Configure HttpContext and Controllers
+            services.AddHttpContextAccessor();
+            services.AddControllers();
+
+            // Configure authorization
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("RequireAdministratorRole",
+                         policy => policy.RequireRole("Administrator"));
+            });
+
+            // Configure mappings
             services.AddMappings();
 
             return services;
         }
     }
+
 }

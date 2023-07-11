@@ -1,7 +1,4 @@
-﻿using ErrorOr;
-
-namespace SecurityConnect.Domain.Common.Errors
-{
+﻿namespace SecurityConnect.Domain.Common.Errors;
     public static partial class Errors
     {
         public static class User
@@ -10,6 +7,7 @@ namespace SecurityConnect.Domain.Common.Errors
                 code: "User.DuplicateUserName",
                 description: "Username is already in use"
                 );
+
         }
     }
-}
+

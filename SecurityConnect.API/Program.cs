@@ -18,8 +18,14 @@ var builder = WebApplication.CreateBuilder(args);
 
 var app = builder.Build();
 {
-    // Configuring global exception handler
-    app.UseExceptionHandler("/error");
+
+    if (!app.Environment.IsDevelopment())
+    {
+        app.UseExceptionHandler("/Error");
+        app.UseHsts();
+        app.UseDeveloperExceptionPage();
+    }
+    app.UseCors("AllowSpecificOrigin");
 
     app.UseStaticFiles();
     app.UseRouting();

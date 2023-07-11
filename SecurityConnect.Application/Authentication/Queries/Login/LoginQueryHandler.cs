@@ -1,12 +1,4 @@
-﻿using ErrorOr;
-using MediatR;
-using SecurityConnect.Application.Common.Interfaces.Authentication;
-using SecurityConnect.Application.Common.Interfaces.Persistence;
-using SecurityConnect.Domain.Common.Errors;
-using SecurityConnect.Application.Authentication.Common;
-using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Application.Authentication.Queries.Login
+﻿namespace SecurityConnect.Application.Authentication.Queries.Login
 {
     public class LoginQueryHandler :
         IRequestHandler<LoginQuery, ErrorOr<AuthenticationResult>>
@@ -28,13 +20,13 @@ namespace SecurityConnect.Application.Authentication.Queries.Login
             await Task.CompletedTask;
 
             // 1. Validate the user exists
-            if (_userRepository.GetUserByUserName(query.UserName) is not User user)
-            {
-                return Errors.Authentication.InvalidCredentials;
-            }
+            //if (_userRepository.GetUser(query.UserName) is not User user)
+            //{
+            //    return Errors.Authentication.InvalidCredentials;
+            //}
 
             // 2. Validate the password is correct
-            if (user.Password != query.Password)
+            if (_userRepository.Login(query.UserName, query.Password) is not User user)
             {
                 return Errors.Authentication.InvalidCredentials;
             }

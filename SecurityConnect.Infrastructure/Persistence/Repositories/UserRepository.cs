@@ -1,13 +1,7 @@
-﻿using SecurityConnect.Application.Common.Interfaces.Persistence;
-
-using Microsoft.EntityFrameworkCore;
-using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Infrastructure.Persistence.Repositories
+﻿namespace SecurityConnect.Infrastructure.Persistence.Repositories
 {
     public class UserRepository : IUserRepository
     {
-
         private readonly AppDbContext _dbContext;
 
         public UserRepository(AppDbContext dbContext)
@@ -15,21 +9,49 @@ namespace SecurityConnect.Infrastructure.Persistence.Repositories
             _dbContext = dbContext;
         }
 
-        public void Add(User user)
+        public void Register(User user)
         {
             _dbContext.Add(user);
-
             _dbContext.SaveChanges();
         }
 
-        public User? GetUserByUserName(string username)
+        public User? Login(string username, string password)
         {
-            /* SingleOrDefault: UserName zu finden
-               wenn kein passender User gibt null zurück,
-               wirft eine InvalidOperationException, wenn mehr als ein passender User gefunden wird. */
-            return _dbContext.Users
-                .SingleOrDefault(u => u.UserName == username);
+            var user = _dbContext.Users.SingleOrDefault(u => u.UserName == username);
+            if (user != null && user.VerifyPassword(password))
+            {
+                return user;
+            }
+            return null;
         }
 
+        public async Task<bool> Delete(string id)
+        {
+            var toDelete = await _dbContext.Users.FindAsync(id);
+
+            if (toDelete == null) return false;
+
+            _dbContext.Users.Remove(toDelete);
+            await _dbContext.SaveChangesAsync();
+
+            return true;
+        }
+
+        public async Task<List<User>> List(string managedByAdminId)
+        {
+            return await _dbContext.Users
+                .Where(e => e.ManagedByAdminId == managedByAdminId)
+                .ToListAsync();
+        }
+
+        public async Task<User> GetCurrentAdmin(string userId)
+        {
+            return await _dbContext.Users.FirstOrDefaultAsync(u => u.Id == userId && u.UserRole == UserRole.Admin);
+        }
+
+        public User? GetUser(string username)
+        {
+            return _dbContext.Users.SingleOrDefault(u => u.UserName == username);
+        }
     }
 }

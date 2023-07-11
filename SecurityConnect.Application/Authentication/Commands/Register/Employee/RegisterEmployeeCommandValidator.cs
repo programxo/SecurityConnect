@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-
-namespace SecurityConnect.Application.Authentication.Commands.Register
+﻿namespace SecurityConnect.Application.Authentication.Commands.Register.Employee
 {
-    public class RegisterCommandValidator : AbstractValidator<RegisterCommand>
+    public class RegisterEmployeeCommandValidator : AbstractValidator<RegisterEmployeeCommand>
     {
-        public RegisterCommandValidator()
+        public RegisterEmployeeCommandValidator()
         {
             RuleFor(x => x.UserName).NotEmpty();
             RuleFor(x => x.Password).NotEmpty();

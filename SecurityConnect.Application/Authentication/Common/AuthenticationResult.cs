@@ -1,6 +1,4 @@
-﻿using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Application.Authentication.Common
+﻿namespace SecurityConnect.Application.Authentication.Common
 {
     public record AuthenticationResult(
 

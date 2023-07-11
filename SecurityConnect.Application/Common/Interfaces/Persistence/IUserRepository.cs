@@ -1,12 +1,17 @@
-﻿
-using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Application.Common.Interfaces.Persistence
+﻿namespace SecurityConnect.Application.Common.Interfaces.Persistence
 {
     public interface IUserRepository
     {
-        User? GetUserByUserName(string username); /* nullable (?) entweder ein User-Objekt oder null,
+        User? Login(string username, string password); /* nullable (?) entweder ein User-Objekt oder null,
                                                      anstatt einen Fehler */
-        void Add(User user); // sync: andere Operationen müssen warten
+        void Register(User user); // sync: andere Operationen müssen warten
+
+        Task<User> GetCurrentAdmin(string adminId);
+
+        User? GetUser(string username);
+
+        Task<bool> Delete(string Id);
+
+        Task<List<User>> List(string adminId);
     }
 }

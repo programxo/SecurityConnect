@@ -1,14 +1,19 @@
 @host=https://localhost:7038
 
-
-POST {{host}}/auth/register
+POST {{host}}/admin/registeremployee
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1laWQiOiI5YTFmMmIwMi03M2JjLTQxMGEtOGM2ZS0wYWUwYWYwZTY5ODEiLCJnaXZlbl9uYW1lIjoiTWF4IiwiZmFtaWx5X25hbWUiOiJNdXN0ZXJtYW5uIiwianRpIjoiYmZlMTA2ZmEtM2Q0Ni00MjJhLWJmMTctZDkzNWU1ZmQ2YjQ5IiwidHlwIjoiQWRtaW4iLCJzdWIiOiI5YTFmMmIwMi03M2JjLTQxMGEtOGM2ZS0wYWUwYWYwZTY5ODEiLCJleHAiOjE2ODg5NDExMTMsImlzcyI6IlNlY3VyaXR5Q29ubmVjdCIsImF1ZCI6IlNlY3VyaXR5Q29ubmVjdCJ9.6dy_RGpHXyfxilk2eXeP_bqJHmzirAArP47ZRU1bNmM
 Content-Type: application/json
 
 {
-    "userName": "userName",
-    "password": "password",
+  "userName": "e11",
+  "password": "12345678",
 
-    "firstName": "Max",
-    "lastName": "Musterman"
+  "firstName": "f",
+  "lastName": "l",
+
+  "userRole": "Employee",
+  "managedByAdminId": "9a1f2b02-73bc-410a-8c6e-0ae0af0e6981"
+
+
 
 }

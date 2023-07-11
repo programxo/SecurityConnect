@@ -1,8 +1,4 @@
-﻿using ErrorOr;
-using FluentValidation;
-using MediatR;
-
-namespace SecurityConnect.Application.Common.Behaviors
+﻿namespace SecurityConnect.Application.Common.Behaviors
 {
     // MediatR pipeline behavior for validating requests
     public class ValidationBehavior<TRequest, TResponse> :

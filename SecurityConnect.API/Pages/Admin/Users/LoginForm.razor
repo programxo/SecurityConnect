@@ -1,0 +1,82 @@
+﻿@page "/auth/login"
+@using SecurityConnect.Contracts.Authentication;
+@using SecurityConnect.WebApp.Services;
+@using System.ComponentModel.DataAnnotations;
+
+@inject EmployeeService EmployeeService
+@inject HttpClient Http
+@inject ISnackbar Snackbar
+@inject IDialogService DialogService
+
+<!-- #region DIALOG: Register a new user -->
+<MudDialog IsVisible="true">
+    <DialogContent>
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+
+                    <MudTextField Label="Benutzername" HelperText="Max. 8 Charakter"
+                    @bind-Value="UserName" />
+
+                    <MudTextField Label="Passwort" HelperText="Passwort" Class="mt-3"
+                    @bind-Value="Password" InputType="InputType.Password" />
+
+                </MudCardContent>
+
+            </MudCard>
+        </MudItem>
+
+        <MudButton ButtonType="ButtonType.Submit"
+                   Variant="Variant.Filled"
+                   Color="Color.Primary"
+                   Class="ml-auto"
+        @onclick="OnValidSubmit">Registrieren</MudButton>
+
+        <MudItem xs="12">
+            <MudText Typo="Typo.body2" Align="Align.Center">
+                Füllen Sie das Formular korrekt aus, um die Erfolgsmeldung anzuzeigen.
+            </MudText>
+        </MudItem>
+    </DialogContent>
+</MudDialog>
+<!-- #endregion DIALOG: Register a new user -->
+@code{
+
+    [Required]
+    [StringLength(8, ErrorMessage = "Nicht länger als 8.")]
+    private string UserName { get; set; }
+
+    [Required]
+    [StringLength(30, ErrorMessage = "Mindestens 8 Charakter lang", MinimumLength = 8)]
+    private string Password { get; set; }
+
+    private async Task OnValidSubmit()
+    {
+        var request = new LoginRequest(UserName, Password);
+
+        var response = await EmployeeService.Login(request);
+
+        if (response != null)
+        {
+            ChangePosition("Benutzer eingelogt!", Defaults.Classes.Position.BottomCenter, Severity.Success);
+        }
+        else
+        {
+            ChangePosition("Ein Fehler ist aufgetreten!", Defaults.Classes.Position.BottomCenter, Severity.Error);
+        }
+    }
+
+    void ChangePosition(string message, string position, Severity variant)
+    {
+        Snackbar.Clear();
+        Snackbar.Configuration.PositionClass = position;
+
+        var config = (SnackbarOptions options) =>
+        {
+            options.DuplicatesBehavior = SnackbarDuplicatesBehavior.Prevent;
+        };
+
+        Snackbar.Add(message, variant);
+    }
+}
+

@@ -1,7 +1,40 @@
 ﻿@page "/"
 
-<PageTitle>Index</PageTitle>
+@inject NavigationManager navigationManager
 
-<MudText Typo="Typo.h3" GutterBottom="true">Hello, world!</MudText>
-<MudText Class="mb-8">Welcome to your new app, powered by MudBlazor!</MudText>
-<MudAlert Severity="Severity.Normal">You can find documentation and examples on our website here: <MudLink Href="https://mudblazor.com" Typo="Typo.body2" Color="Color.Inherit"><b>www.mudblazor.com</b></MudLink></MudAlert>
+
+
+<MudPaper Width="100%">
+    <MudList Clickable="true">
+        <MudListSubheader>
+            Nested List Items
+        </MudListSubheader>
+        <MudDivider />
+        <MudListItem Icon="@Icons.Material.Filled.Report">
+            Reports
+        </MudListItem>
+        <MudDivider />
+        <MudListItem Icon="@Icons.Material.Filled.Drafts">
+            Drafts
+        </MudListItem>
+        <MudDivider />
+        <MudListItem Icon="@Icons.Material.Filled.Inbox" Text="Inbox" InitiallyExpanded="true">
+            <NestedList>
+                <MudListItem Icon="@Icons.Material.Filled.StarRate">
+                    Starred
+                </MudListItem>
+                <MudListItem Icon="@Icons.Material.Filled.WatchLater">
+                    Snoozed
+                </MudListItem>
+            </NestedList>
+        </MudListItem>
+        <MudDivider />
+    </MudList>
+</MudPaper>
+
+@code {
+
+
+}
+
+

@@ -1,6 +1,4 @@
-﻿using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Application.Common.Interfaces.Authentication
+﻿namespace SecurityConnect.Application.Common.Interfaces.Authentication
 {
     public interface IJwtTokenGenerator
     {

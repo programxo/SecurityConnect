@@ -1,11 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
-using FluentValidation;
-using SecurityConnect.Application.Common.Behaviors;
-
-using System.Reflection;
-
-namespace SecurityConnect.Application
+﻿namespace SecurityConnect.Application
 {
     public static class DependencyInjection
     {

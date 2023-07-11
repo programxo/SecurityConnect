@@ -1,0 +1,15 @@
+@host=https://localhost:7038
+
+
+POST {{host}}/admin/registeradmin
+Content-Type: application/json
+
+{
+  "firstName": "Max",
+  "lastName": "Mustermann",
+  "username": "Admin",
+  "password": "12345678",
+  "userRole": "Admin"
+}
+
+

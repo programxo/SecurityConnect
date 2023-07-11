@@ -2,11 +2,14 @@
 @using System.Net.Http
 @using System.Text
 @using System.Text.Json
+@using SecurityConnect.Contracts.Admin.Employee;
 @using SecurityConnect.Contracts.Authentication
+@using SecurityConnect.WebApp.Services;
 
+@inject EmployeeService EmployeeService
 @inject HttpClient Http
 @inject ISnackbar Snackbar
-@inject IDialogService Dialog
+@inject IDialogService DialogService
 
 <!-- #region DIALOG: Register a new user -->
 <MudDialog IsVisible="true" >
@@ -59,8 +62,6 @@
     void Submit() => MudDailog.Close(DialogResult.Ok(true));
     void Cancel() => MudDailog.Cancel();
 
-    bool success;
-
     [Required]
     [StringLength(8, ErrorMessage = "Nicht länger als 8.")]
     private string UserName { get; set; }
@@ -85,21 +86,16 @@
     [StringLength(8, ErrorMessage = "Nicht länger als 8.")]
     private string UserRole { get; set; }
 
+    private string ManagedByAdminId { get; set; }
+
 
     private async Task OnValidSubmit()
     {
-        var request = new RegisterRequest(UserName, Password, FirstName, LastName, UserRole);
+        var request = new RegisterEmployeeRequest(UserName, Password, FirstName, LastName, UserRole, ManagedByAdminId);
 
-        // Convert the request to JSON
-        string json = JsonSerializer.Serialize(request);
+        var response = await EmployeeService.RegisterEmployee(request);
 
-        // Wrap the JSON in a StringContent object for the POST request
-        HttpContent content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        // Send the POST request
-        HttpResponseMessage response = await Http.PostAsync("https://localhost:7038/auth/register", content);
-
-        if (response.IsSuccessStatusCode)
+        if (response != null)
         {
             ChangePosition("Benutzer registriert!", Defaults.Classes.Position.BottomCenter, Severity.Success);
         }

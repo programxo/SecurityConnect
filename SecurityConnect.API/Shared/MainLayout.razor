@@ -1,34 +1,39 @@
 ﻿@inherits LayoutComponentBase
 
+@inject NavigationManager navigationManager
+
 <MudThemeProvider />
 <MudDialogProvider />
 <MudSnackbarProvider />
 
-<MudLayout>
-    <MudAppBar Elevation="0">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@((e) => DrawerToggle())" />
+<MudPaper Elevation="25">
+
+    <MudToolBar Class="row font-weight-bold justify-content-md-center col-sm-6 col-md-4 col-lg-3"
+                Style="@($"background:{Colors.Grey.Lighten1};")">
+        
+
+        <MudIconButton Icon="@Icons.Material.Filled.Settings" Color="Color.Default" Size="Size.Large" />
+
+        <MudIconButton Icon="@Icons.Material.Outlined.Add" Size="Size.Medium" />
+
         <MudSpacer />
-        <MudIconButton Icon="@Icons.Custom.Brands.MudBlazor" Color="Color.Inherit" Link="https://mudblazor.com/" Target="_blank" />
-        <MudIconButton Icon="@Icons.Custom.Brands.GitHub" Color="Color.Inherit" Link="https://github.com/MudBlazor/MudBlazor/" Target="_blank" />
-    </MudAppBar>
-    <MudDrawer @bind-Open="_drawerOpen" Elevation="1">
-        <MudDrawerHeader>
-            <MudText Typo="Typo.h6">template</MudText>
-        </MudDrawerHeader>
-        <NavMenu />
-    </MudDrawer>
-    <MudMainContent>
-        <MudContainer MaxWidth="MaxWidth.Large" Class="my-16 pt-16">
-            @Body
-        </MudContainer>
-    </MudMainContent>
-</MudLayout>
 
-@code {
-    bool _drawerOpen = true;
+        <MudIconButton Icon="@Icons.Material.Outlined.Notifications" Size="Size.Medium" />
 
-    void DrawerToggle()
+        <MudIconButton Icon="@Icons.Material.Outlined.PushPin" Size="Size.Medium" />
+
+        <MudIconButton Icon="@Icons.Material.Rounded.ManageAccounts" OnClick="@NavigateToUserManagement" Size="Size.Large" />
+
+    </MudToolBar>
+
+</MudPaper>
+
+@Body
+
+@code{
+    void NavigateToUserManagement()
     {
-        _drawerOpen = !_drawerOpen;
+        navigationManager.NavigateTo("/user-management", true);
     }
 }
+

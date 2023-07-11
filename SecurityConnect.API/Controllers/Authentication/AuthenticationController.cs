@@ -1,13 +1,11 @@
-﻿using ErrorOr;
-using MapsterMapper;
+﻿using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 
 using Microsoft.AspNetCore.Mvc;
-using SecurityConnect.Application.Authentication.Commands.Register;
-using SecurityConnect.Application.Authentication.Common;
 using SecurityConnect.Application.Authentication.Queries.Login;
 using SecurityConnect.Contracts.Authentication;
+using System.IdentityModel.Tokens.Jwt;
 
 namespace SecurityConnect.WebApp.Controllers.Authentication
 {
@@ -18,84 +16,37 @@ namespace SecurityConnect.WebApp.Controllers.Authentication
 
         private readonly ISender _mediator;
         private readonly IMapper _mapper;
+        private readonly AuthenticationService _authService;  // Injizieren Sie den AuthenticationService
 
-        public AuthenticationController(ISender mediator, IMapper mapper)
+        public AuthenticationController(ISender mediator, IMapper mapper, AuthenticationService authService)
         {
             _mediator = mediator;
             _mapper = mapper;
+            _authService = authService;  // Setzen Sie den AuthenticationService
         }
-
-        // REPLACED BY MEDIATR
-        //private readonly IAuthenticationCommandService _authenticationCommandService;
-        //private readonly IAuthenticationQueryService _authenticationQueryService;
-
-        //public AuthenticationController(
-        //    IAuthenticationCommandService authenticationCommandService, 
-        //    IAuthenticationQueryService authenticationQueryService)
-        //{
-        //    _authenticationCommandService = authenticationCommandService;
-        //    _authenticationQueryService = authenticationQueryService;
-        //}
-
-        #region REGISTER
-        [HttpPost("register")]
-        public async Task<IActionResult> Register(RegisterRequest request)
-        {
-            var command = _mapper.Map<RegisterCommand>(request);
-            // Replaced by Object Mapper (Mapster)
-            // new RegisterCommand(request.PersonnelNumber, request.Password, request.FirstName, request.LastName);
-
-            var authResult = await _mediator.Send(command);
-
-            // ALSO REPLACED BY MEDIATR
-            //_authenticationCommandService.Register(
-            //request.PersonnelNumber,
-            //request.Password,
-            //request.FirstName,
-            //request.LastName);
-
-            return authResult.Match(
-                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)), // MapAuthResult replaced by Mapster
-                errors => Problem(errors));
-        }
-        #endregion
 
         #region LOGIN
         [HttpPost("login")]
         public async Task<IActionResult> Login(LoginRequest request)
         {
             var query = _mapper.Map<LoginQuery>(request);
-            // Replaced by Object Mapper (Mapster)
-            // new LoginQuery(request.PersonnelNumber, request.Password);
+
             var authResult = await _mediator.Send(query);
 
-            //_authenticationQueryService.Login(request.PersonnelNumber,
-            //                                          request.Password);
-
-            //if (authResult.IsError && authResult.FirstError == Errors.Authentication.InvalidCredentials)
-            //{
-            //    return Problem(
-            //        statusCode: StatusCodes.Status401Unauthorized, 
-            //        title: authResult.FirstError.Description);
-            //}
-
             return authResult.Match(
-                authResult => Ok(_mapper.Map<AuthenticationResponse>(authResult)),
-                errors => Problem(errors));
+                authResult => {
+                    var response = _mapper.Map<AuthenticationResponse>(authResult);
+                    var handler = new JwtSecurityTokenHandler();
+                    var jwtToken = handler.ReadJwtToken(response.Token);
 
+                    var usernameClaim = jwtToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Name);
+                    var roleClaim = jwtToken.Claims.First(c => c.Type == JwtRegisteredClaimNames.Typ);
+
+                    _authService.Login(usernameClaim.Value, roleClaim.Value);
+                    return Ok(response);
+                },
+                errors => Problem(errors));
         }
         #endregion
-
-        //#region Mapping Authentication Result Method
-        //private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult)
-        //{
-        //    return new AuthenticationResponse(
-        //        authResult.user.Id,
-        //        authResult.user.PersonnelNumber,
-        //        authResult.Token,
-        //        authResult.user.FirstName,
-        //        authResult.user.LastName);
-        //}
-        //#endregion
     }
 }

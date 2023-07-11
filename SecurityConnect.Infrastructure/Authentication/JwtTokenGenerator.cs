@@ -1,15 +1,4 @@
-﻿using System.IdentityModel.Tokens.Jwt; // Token-Creating
-using System.Security.Claims;
-using System.Text;
-
-using Microsoft.Extensions.Options;
-using Microsoft.IdentityModel.Tokens; // For Hashing
-
-using SecurityConnect.Application.Common.Interfaces.Authentication;
-using SecurityConnect.Application.Common.Interfaces.Services;
-using SecurityConnect.Domain.Entities.UserAggregate;
-
-namespace SecurityConnect.Infrastructure.Authentication
+﻿namespace SecurityConnect.Infrastructure.Authentication
 {
     public class JwtTokenGenerator : IJwtTokenGenerator
     {
@@ -40,10 +29,13 @@ namespace SecurityConnect.Infrastructure.Authentication
             #region Creating Claims for Token (Details about User)
             var claims = new[]
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim(JwtRegisteredClaimNames.NameId, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.GivenName, user.FirstName),
+                new Claim(JwtRegisteredClaimNames.Name, user.UserName),
                 new Claim(JwtRegisteredClaimNames.FamilyName, user.LastName),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(JwtRegisteredClaimNames.Typ, user.UserRole.ToString()),
+                new Claim(JwtRegisteredClaimNames.Sub, user.ManagedByAdminId)
             };
             #endregion
 

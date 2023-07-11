@@ -1,0 +1,18 @@
+﻿<MudDialog>
+    <DialogContent>
+        <MudText Typo="Typo.h6">Benutzer löschen: Sind Sie sicher?</MudText>
+    </DialogContent>
+    <DialogActions>
+        <MudButton Color="Color.Primary" OnClick="() => Confirm(true)">Ja</MudButton>
+        <MudButton Color="Color.Secondary" OnClick="() => Confirm(false)">Nein</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    private void Confirm(bool result)
+    {
+        MudDialog.Close(DialogResult.Ok(result));
+    }
+}
